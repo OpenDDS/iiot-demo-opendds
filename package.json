@@ -1,0 +1,30 @@
+{
+  "name": "valve-ui",
+  "version": "0.1.0",
+  "private": true,
+  "devDependencies": {
+    "eslint": "^3.15.0",
+    "eslint-plugin-flowtype": "^2.30.0",
+    "eslint-plugin-html": "^3.0.0",
+    "eslint-plugin-react": "^6.9.0",
+    "node-sass": "^4.5.0",
+    "react-scripts": "0.8.5"
+  },
+  "dependencies": {
+    "chart.js": "^2.4.0",
+    "formidable-charts": "^0.0.7",
+    "react": "^15.4.2",
+    "react-bootstrap": "^0.30.7",
+    "react-dom": "^15.4.2",
+    "svg-pan-zoom": "^3.4.1",
+    "opendds": "*"
+  },
+  "scripts": {
+    "build-css": "node-sass src/ -o src/",
+    "watch-css": "npm run build-css && node-sass src/ -o src/ --watch",
+    "start": "react-scripts start & npm run watch-css",
+    "build": "react-scripts build && npm run build-css",
+    "test": "react-scripts test --env=jsdom",
+    "lint": "eslint src/**/*.js"
+  }
+}

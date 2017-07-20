@@ -1,0 +1,219 @@
+.app {
+  padding: 20px;
+
+  .diagram {
+    border: solid lightgray 1px;
+    height: 100%;
+    margin: 0 10px;
+    padding: 10px;
+    width: 800px;
+  }
+
+  .diagram-svg {
+    height: 100%;
+    width: 100%;
+  }
+
+  .diagram-text {
+    font-size: 6px;
+  }
+
+  .facility {
+    img {
+      height: 600px;
+    }
+  }
+
+  .facility-alert {
+    height: 600px;
+    left: 0;
+    position: absolute;
+    z-index: 1;
+
+    circle {
+      animation: pulse .5s infinite;
+      fill: red;
+      stroke: #8c3836;
+    }
+  }
+
+  .filter-row {
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+
+    label {
+      text-align: right;
+      width: 55px;
+    }
+  }
+
+  .filters {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+
+    > .nexmatix-logo {
+      margin-bottom: 20px;
+      width: 200px;
+    }
+
+    button {
+      margin: 10px auto;
+    }
+  }
+
+  > .logo {
+    left: 450px;
+    position: absolute;
+    top: 290px;
+    width: 300px;
+  }
+
+  > .oci-logo {
+    display: inline-block;
+    height: 100px;
+    position: relative;
+    top: -70px;
+  }
+
+  .number-input {
+    display: inline-block;
+    margin: 2px 0 2px 5px;
+    width: 100px;
+  }
+
+  .polygon {
+    fill: white;
+    stroke: blue;
+    stroke-width: 1;
+  }
+
+  .tab-content {
+    position: relative;
+  }
+
+  .tabs {
+    display: flex;
+
+    .tab-buttons {
+      display: flex;
+      flex-direction: column;
+      margin-right: 10px;
+
+      button {
+        background-color: lightgray;
+        background-image: none;
+        border-radius: 4px;
+        border-width: 0;
+        color: black;
+        margin-bottom: 10px;
+        padding: 10px;
+        width: 130px;
+
+        &.selected {
+          background-color: darkgray;
+        }
+      }
+
+    }
+
+    .tab-content {
+      display: flex;
+      flex-grow: 1;
+      height: 600px;
+    }
+  }
+
+  .toggle-btn {
+
+    background-image: linear-gradient(0, #86a73f, #a9d451);
+    border: none;
+    border-radius: 5px;
+    box-shadow: inset 0 0 0 1px #27496d;
+    color: white;
+    font-size: 18px;
+    height: 74px;
+    margin: 15px 5px;
+    padding: 10px;
+    width: 120px;
+
+    &:focus {
+      outline: none; /* eliminates outline around focused button */
+    }
+
+    &.up {
+      box-shadow: inset 0 0 0 1px #27496d,0 5px 15px #193047;
+    }
+
+    &.down {
+      box-shadow: inset 0 0 0 1px #27496d,inset 0 5px 30px #193047;
+    }
+
+    &.alert {
+      background-image: linear-gradient(0, #9B3B38, #DD4744);
+    }
+  }
+
+  .valve {
+    stroke-linejoin: round;
+    stroke-width: 2;
+    vector-effect: non-scaling-stroke;
+
+    &.any-fault {
+      fill: #C0504D; /* red */
+      stroke: #8C3836;
+    }
+
+    &.no-fault {
+      fill: #9BBB59; /* green */
+      stroke: #72893F;
+    }
+
+    &.open-slot {
+      fill: lightgray;
+      stroke: lightgray;
+    }
+
+    &.selected-fault {
+      animation: pulse 0.5s infinite;
+      stroke: #8C3836;
+    }
+  }
+
+  @keyframes pulse {
+    0% {
+      fill: #C0504D; /* red */
+    }
+    100% {
+      fill: #FF7070;
+    }
+  }
+}
+.valve-dialog {
+  .dialog-value {
+    display: inline-block;
+    width: 130px;
+  }
+
+  .fault {
+    color: red;
+  }
+
+  label {
+    vertical-align: top;
+    width: 130px;
+  }
+
+  .modal-dialog {
+    margin-left: 24px;
+  }
+
+  .modal-title {
+    font-weight: bold;
+  }
+
+  svg {
+    padding-top: 0 !important;
+  }
+}

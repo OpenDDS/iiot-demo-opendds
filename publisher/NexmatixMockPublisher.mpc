@@ -1,0 +1,18 @@
+project: dcpsexe, svc_utils {
+  exeout += ../bin
+
+  idlflags += -I../idl
+
+  Modify_Custom(IDL) {
+     output_follows_input = 0
+   }
+
+  TypeSupport_Files {
+    ../idl/Nexmatix.idl
+  }
+
+  IDL_Files {
+    ../idl/Nexmatix.idl
+  }
+
+}

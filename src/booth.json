@@ -1,0 +1,132 @@
+{
+  "width": 205,
+  "height": 184,
+  "definitions": {
+    "logo": {
+      "type": "image",
+      "height": 56,
+      "width": 100,
+      "ref": "images/logo.svg"
+    },
+    "booth": {
+      "type": "polygon",
+      "points": [
+        [0, 0],
+        [0, 184],
+        [205, 184],
+        [205, 0]
+      ]
+    },
+    "bench1": {
+      "type": "polygon",
+      "points": [
+        [0, 0],
+        [0, 36],
+        [36, 72],
+        [72, 72],
+        [72, 61],
+        [11, 0]
+      ]
+    },
+    "bench2": {
+      "type": "polygon",
+      "points": [
+        [0, 0],
+        [0, 91],
+        [21, 91],
+        [21, 32],
+        [61, 32],
+        [61, 0]
+      ]
+    }
+  },
+  "instances": [
+    {
+      "id": 10,
+      "defId": "booth",
+      "location": {"x": 0, "y": 0}
+    },
+    {
+      "id": 11,
+      "defId": "bench1",
+      "location": {"x": 0, "y": 112}
+    },
+    {
+      "id": 12,
+      "defId": "bench1",
+      "location": {"x": 133, "y": 112},
+      "angle": 90
+    },
+    {
+      "id": 13,
+      "defId": "bench2",
+      "flipY": true,
+      "location": {"x": 41, "y": 0}
+    },
+    {
+      "id": 14,
+      "defId": "bench2",
+      "location": {"x": 102, "y": 0}
+    },
+    {
+      "stationId": 1,
+      "manifoldId": 4,
+      "horizontal": false,
+      "angle": 180,
+      "location": {"x": 52, "y": 2},
+      "valveIds": [0, 1, -1, -1, 4, 5]
+    },
+    {
+      "stationId": 2,
+      "manifoldId": 5,
+      "horizontal": false,
+      "location": {"x": 134, "y": 2},
+      "valveIds": [0, 1, -1, -1, 4, 5]
+    },
+    {
+      "stationId": 3,
+      "manifoldId": 3,
+      "horizontal": true,
+      "angle": 45,
+      "location": {"x": 60, "y": 160},
+      "valveIds": [0]
+    },
+    {
+      "stationId": 4,
+      "manifoldId": 2,
+      "horizontal": true,
+      "location": {"x": 146, "y": 164},
+      "valveIds": [0]
+    },
+    {
+      "stationId": 4,
+      "manifoldId": 1,
+      "horizontal": true,
+      "angle": 90,
+      "location": {"x": 192, "y": 117},
+      "valveIds": [-1]
+    },
+    {
+      "id": 16,
+      "text": "Smart Factory Zone",
+      "location": {"x": 71, "y": -4}
+    },
+    {
+      "id": 17,
+      "text": "Smart Machines Zone",
+      "location": {"x": 133, "y": -4}
+    },
+    {
+      "id": 18,
+      "text": "Energy Efficiency\nBi-directional Actuation Zone",
+      "location": {"x": 43, "y": 139},
+      "angle": -45
+    },
+    {
+      "id": 19,
+      "text": "Energy Efficiency\nUnidirectional Actuation Zone",
+      "location": {"x": 161, "y": 139},
+      "angle": 45
+    }
+  ]
+}
