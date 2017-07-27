@@ -56,7 +56,7 @@ void DemoData::write(const DDS::DataWriter_var& vd_dw)
     for (int valve_id=0; valve_id < valve_count; ++valve_id) {
       Nexmatix::ValveData data;
       data.manifoldId = manifold_id;
-      data.statiionId = valve_id;
+      data.stationId = valve_id;
       data.valveSerialId = serial_number(valve_id, manifold_id);
       data.partNumber = part_number(valve_id, manifold_id).c_str();
 

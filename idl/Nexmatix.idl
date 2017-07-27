@@ -6,13 +6,13 @@ module Nexmatix {
 
   #pragma DCPS_DATA_TYPE "Nexmatix::ValveData"
   #pragma DCPS_DATA_KEY "Nexmatix::ValveData manifoldId"
-  #pragma DCPS_DATA_KEY "Nexmatix::ValveData statiionId"
+  #pragma DCPS_DATA_KEY "Nexmatix::ValveData stationId"
 
   struct ValveData
   {
     // valve identification, location
     long manifoldId;
-    long statiionId;
+    long stationId;
     long valveSerialId;
     string partNumber;
 

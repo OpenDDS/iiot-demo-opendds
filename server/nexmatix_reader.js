@@ -1,6 +1,5 @@
 var opendds = require('opendds');
 
-
 function ValveDataReader() {
   this.valveReader = null;
   this.factory = null;
@@ -9,7 +8,7 @@ function ValveDataReader() {
 
 // Topics is "Valve"
 // Symbols uses transient-local durability, otherwise QoS is default
-ValveDataReader.prototype.subscribe = function(data_handler) {
+ValveDataReader.prototype.subscribe = function(sample_received) {
   var qos = {
     DataReaderQos: { durability: "TRANSIENT_LOCAL_DURABILITY_QOS" }
   };
@@ -19,7 +18,13 @@ ValveDataReader.prototype.subscribe = function(data_handler) {
             'Valve',
             'Nexmatix::ValveData',
             qos,
-            reader_handler);
+          function(dr, sInfo, sample) {
+            if (sInfo.valid_data) {
+              sample.source_timestamp = sInfo.source_timestamp;
+              sample_received(sample);
+            }
+          }
+      );
 
   } catch (e) {
     console.log(e);
@@ -42,7 +47,7 @@ ValveDataReader.prototype.finalizeDds = function(argsArray) {
 ValveDataReader.prototype.initializeDds = function(argsArray) {
   var DOMAIN_ID = 23;
   this.factory = opendds.initialize.apply(null, argsArray);
-  this.library = opendds.load('lib/Nexmatix');
+  this.library = opendds.load('../lib/Nexmatix');
   if (!this.library) {
     throw new Error("Could not open type support library");
   }
@@ -50,14 +55,17 @@ ValveDataReader.prototype.initializeDds = function(argsArray) {
   // Handle exit gracefully
   var self = this;
   process.on('SIGINT', function() {
+    console.log("OnSIGINT");
     self.finalizeDds();
     process.exit(0);
   });
   process.on('SIGTERM', function() {
+    console.log("OnSIGTERM");
     self.finalizeDds();
     process.exit(0);
   });
   process.on('exit', function() {
+    console.log("OnExit");
     self.finalizeDds();
   });
 };

@@ -17,6 +17,17 @@
   $ $ACE_ROOT/bin/mwc.pl -type gnuace .
   $ make
 ```
+3. Run the node server which acts as a DDS subscriber
+```bash
+  $ cd server
+  $ npm install
+  $ node main.js -DCPSConfigFile ../rtps_disc.ini
+```
+4. Run the publisher
+```bash
+  $ publisher/NexmatixPublisher -DCPSConfigFile rtps_disc.ini
+```
+
 3. Run
  ```bash
   $ npm run build-css

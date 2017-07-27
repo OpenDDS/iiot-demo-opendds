@@ -17,7 +17,7 @@
     "react-bootstrap": "^0.30.7",
     "react-dom": "^15.4.2",
     "svg-pan-zoom": "^3.4.1",
-    "opendds": "*"
+    "socket.io-client": "^2.0.3"
   },
   "scripts": {
     "build-css": "node-sass src/ -o src/",

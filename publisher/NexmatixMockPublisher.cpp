@@ -5,13 +5,48 @@
 #include <dds/DCPS/Service_Participant.h>
 
 #include <iostream>
+#include <ace/Get_Opt.h>
 
 #define NO_LISTENER 0, 0
 
 namespace {
   const DDS::DomainId_t DOMAIN_ID = 23;
   const char* TOPIC_NAME = "Valve";
+  int sleep_time_in_sec = 1;
 }
+
+int
+parse_args(int argc, ACE_TCHAR *argv[])
+{
+  //
+  // Command-line Options:
+  //
+  //    -w <number of topics>
+  //    -s <samples per topic>
+  //    -z <sec>  -- don't check the sample counts, just sleep this much
+  //                 and exit
+  //
+
+  ACE_Get_Opt get_opts(argc, argv, ACE_TEXT("t:"));
+
+  int c;
+  while ((c = get_opts()) != -1) {
+    switch (c) {
+    case 't':
+      sleep_time_in_sec = ACE_OS::atoi(get_opts.opt_arg());
+      std::cout << "sleep time = " << sleep_time_in_sec << " sec" << std::endl;
+      break;
+    case '?':
+    default:
+      ACE_ERROR_RETURN((LM_ERROR,
+                        ACE_TEXT("usage: %C -t sleep_time_in_secs\n"), argv[0]),
+                       -1);
+    }
+  }
+
+  return 0;
+}
+
 
 int main(int argc, char* argv[])
 {
@@ -21,6 +56,10 @@ int main(int argc, char* argv[])
 
     const DDS::DomainParticipant_var participant =
       dpf->create_participant(DOMAIN_ID, PARTICIPANT_QOS_DEFAULT, NO_LISTENER);
+
+
+    if (parse_args(argc, argv))
+      return 1;
 
     const Nexmatix::ValveDataTypeSupport_var vd_ts =
       new Nexmatix::ValveDataTypeSupportImpl;
@@ -46,7 +85,7 @@ int main(int argc, char* argv[])
 
     while (!sh.stop()) {
       demo.write(vd_dw);
-      sh.wait(ACE_Time_Value(1,0));
+      sh.wait(ACE_Time_Value(sleep_time_in_sec,0));
     }
 
     participant->delete_contained_entities();

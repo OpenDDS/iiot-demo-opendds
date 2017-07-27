@@ -2,8 +2,7 @@ import React, {Component} from 'react';
 
 import Tabs from './tabs';
 import './App.css';
-// import '../lib/nexmatix_reader';
-import * as  ValveDataReader from '../lib/nexmatix_reader';
+import io from 'socket.io-client';
 
 const config = require('../public/config.json');
 //const config = {ip: '192.168.3.10', port: 9001};
@@ -32,20 +31,22 @@ class App extends Component {
   }
 
   ddsSetup() {
-    var valveDataReader = new ValveDataReader();
-    // Split out DDS args
-    let ddsArgs = process.argv.slice(process.argv.indexOf(__filename) + 1);
-    valveDataReader.initializeDds(ddsArgs);
-
+    const socket = io.connect(config.url);
     const that = this;
-    valveDataReader.subscribe(function(dr, sInfo, sample) {
-      if (sInfo.valid_data) {
-        that.updateValve(sample.manifoldId, sample.stationNumber, sample);
-      }
+
+    // Add a connect listener
+    socket.on('connect',function() {
+      console.log('Client has connected to the server!');
+    });
+
+    socket.on('valve', (sample) => {
+      sample.pressureFault = (sample.pressureFault != 'NO_FAULT');
+      that.updateValve(sample.manifoldId, sample.stationId, sample);
     });
   }
 
   componentDidMount() {
+    console.log("componentDidMount");
     this.ddsSetup();
 
     setInterval(() => {
