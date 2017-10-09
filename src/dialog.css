@@ -1,0 +1,24 @@
+.dialog .modal-content {
+  background-color: white;
+  color: black;
+}
+
+.dialog.info .modal-content {
+  background-color: #f2f8fd;
+  color: #3498db;
+}
+
+.dialog.danger .modal-content {
+  background-color: #fcf3f2;
+  color: #c0392b;
+}
+
+.dialog.warning .modal-content {
+  background-color: #fdf7f1;
+  color: #e67e22;
+}
+
+.dialog.success .modal-content {
+  background-color: #f3fcf7;
+  color: #27ae60;
+}
