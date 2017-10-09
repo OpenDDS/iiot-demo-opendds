@@ -10,11 +10,13 @@
   $ make
   $ cd ..
 ```
-2. Build nexmatix module (Currently, only works on Linux)
+2. Build shared library and publishing application (Currently, only works on Linux)
 ```bash
   $ source OpenDDS/setenv.sh
+  $ export V8_ROOT=/usr # assuming /usr/include/v8.h exists
+  $ export NAN_ROOT=`pwd`/node_modules/nan
   $ npm install
-  $ $ACE_ROOT/bin/mwc.pl -type gnuace .
+  $ mwc.pl -type gnuace
   $ make
 ```
 3. Run the node server which acts as a DDS subscriber
@@ -28,7 +30,7 @@
   $ publisher/NexmatixPublisher -DCPSConfigFile rtps_disc.ini
 ```
 
-3. Run
+3. Run the webapp
  ```bash
   $ npm run build-css
   $ npm start
