@@ -1,5 +1,10 @@
 .DS_Store
+/bin
+/GNUmakefile
+/lib
+/OpenDDS
+/setenv.sh
 build
-npm-debug.log*
 node_modules
+npm-debug.log*
 src/**/*.css

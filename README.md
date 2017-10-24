@@ -3,15 +3,18 @@
 
 ### Build Steps
 0. Prerequisites
-The V8 Javascript engine header file (v8.h) is required.  On Debian-based Linux
-systems install the package libv8-dev.  On other systems see the
+
+- Node.js version 6.x (LTS version at this time) is required.
+
+- The V8 Javascript engine header file (v8.h) is required.  On Debian-based
+Linux systems install the package libv8-dev.  On other systems see the
 [V8 website](https://github.com/v8/v8/wiki) and set V8_ROOT in step 2 below.
 
 1. Build OpenDDS
 ```bash
   $ git clone https://github.com/objectcomputing/OpenDDS.git
   $ cd OpenDDS
-  $ ./configure --no-tests
+  $ ./configure --no-tests --macros=CCFLAGS+=-std=c++11
   $ make
   $ cd ..
 ```
@@ -37,11 +40,13 @@ systems install the package libv8-dev.  On other systems see the
 4. Run the publisher
 (Environment from step 2 must still be set)
 ```bash
-  $ publisher/NexmatixPublisher -DCPSConfigFile rtps_disc.ini
+  $ publisher/NexmatixMockPublisher -DCPSConfigFile rtps_disc.ini
 ```
 
-3. Run the webapp
+5. Run the webapp
  ```bash
+  Edit public/config.json to have the correct URL for your server
   $ npm run build-css
   $ npm start
+  The web server is running on port 3000
 ```
