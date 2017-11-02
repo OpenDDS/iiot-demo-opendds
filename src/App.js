@@ -40,7 +40,7 @@ class App extends Component {
     });
 
     socket.on('valve', (sample) => {
-      sample.pressureFault = (sample.pressureFault != 'NO_FAULT');
+      sample.pressureFault = (sample.pressureFault !== 'NO_FAULT');
       that.updateValve(sample.manifoldId, sample.stationId, sample);
     });
   }
