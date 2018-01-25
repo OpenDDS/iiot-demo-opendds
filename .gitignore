@@ -8,3 +8,5 @@ build
 node_modules
 npm-debug.log*
 src/**/*.css
+/.vs/
+/iiot_demo_opendds.sln

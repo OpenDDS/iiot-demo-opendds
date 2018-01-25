@@ -1,4 +1,5 @@
-var opendds = require('opendds');
+var opendds = require('opendds'),
+    path = require('path');
 
 function ValveDataReader() {
   this.valveReader = null;
@@ -47,7 +48,7 @@ ValveDataReader.prototype.finalizeDds = function(argsArray) {
 ValveDataReader.prototype.initializeDds = function(argsArray) {
   var DOMAIN_ID = 23;
   this.factory = opendds.initialize.apply(null, argsArray);
-  this.library = opendds.load('../lib/Nexmatix');
+  this.library = opendds.load(path.join('..', 'lib', 'Nexmatix'));
   if (!this.library) {
     throw new Error("Could not open type support library");
   }
