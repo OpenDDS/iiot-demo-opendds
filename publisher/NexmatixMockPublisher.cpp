@@ -15,6 +15,13 @@ namespace {
   int sleep_time_in_sec = 1;
 }
 
+const char DDSSEC_PROP_IDENTITY_CA[] = "dds.sec.auth.identity_ca";
+const char DDSSEC_PROP_IDENTITY_CERT[] = "dds.sec.auth.identity_certificate";
+const char DDSSEC_PROP_IDENTITY_PRIVKEY[] = "dds.sec.auth.private_key";
+const char DDSSEC_PROP_PERM_CA[] = "dds.sec.access.permissions_ca";
+const char DDSSEC_PROP_PERM_GOV_DOC[] = "dds.sec.access.governance";
+const char DDSSEC_PROP_PERM_DOC[] = "dds.sec.access.permissions";
+
 int
 parse_args(int argc, ACE_TCHAR *argv[])
 {
@@ -47,6 +54,14 @@ parse_args(int argc, ACE_TCHAR *argv[])
   return 0;
 }
 
+void append(DDS::PropertySeq& props, const char* name, const std::string& value)
+{
+  const DDS::Property_t prop = {
+    name, (std::string("file:") + value).c_str(), false /*propagate*/};
+  const unsigned int len = props.length();
+  props.length(len + 1);
+  props[len] = prop;
+}
 
 int main(int argc, char* argv[])
 {
@@ -54,9 +69,30 @@ int main(int argc, char* argv[])
     const DDS::DomainParticipantFactory_var dpf =
       TheParticipantFactoryWithArgs(argc, argv);
 
-    const DDS::DomainParticipant_var participant =
-      dpf->create_participant(DOMAIN_ID, PARTICIPANT_QOS_DEFAULT, NO_LISTENER);
+    DDS::DomainParticipantQos qos;
+    dpf->get_default_participant_qos(qos);
 
+    // Enable Security
+    const std::string dds_root(getenv("DDS_ROOT"));
+    const std::string dds_certs(dds_root + "/tests/security/certs");
+    if (TheServiceParticipant->get_security()) {
+      DDS::PropertySeq& props = qos.property.value;
+      append(props, DDSSEC_PROP_IDENTITY_CA,
+        dds_certs + "/opendds_identity_ca_cert.pem");
+      append(props, DDSSEC_PROP_PERM_CA,
+        dds_certs + "/opendds_identity_ca_cert.pem");
+      append(props, DDSSEC_PROP_PERM_GOV_DOC,
+				"security/governance_signed.p7s");
+      append(props, DDSSEC_PROP_IDENTITY_CERT,
+        dds_certs + "/mock_participant_1/opendds_participant_cert.pem");
+      append(props, DDSSEC_PROP_IDENTITY_PRIVKEY,
+        dds_certs + "/mock_participant_1/opendds_participant_private_key.pem");
+      append(props, DDSSEC_PROP_PERM_DOC,
+				"security/permissions_1_signed.p7s");
+    }
+
+    const DDS::DomainParticipant_var participant =
+      dpf->create_participant(DOMAIN_ID, qos, NO_LISTENER);
 
     if (parse_args(argc, argv))
       return 1;

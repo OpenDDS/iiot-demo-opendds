@@ -52,7 +52,30 @@ ValveDataReader.prototype.initializeDds = function(argsArray) {
   if (!this.library) {
     throw new Error("Could not open type support library");
   }
-  this.participant = this.factory.create_participant(DOMAIN_ID);
+  var ddsCerts = process.env.DDS_ROOT + "/tests/security/certs"
+  this.participant = this.factory.create_participant(DOMAIN_ID, {
+    property: { value: [
+
+      {name: "dds.sec.auth.identity_ca", value: "file:" +
+        ddsCerts + "/opendds_identity_ca_cert.pem"},
+
+      {name: "dds.sec.access.permissions_ca", value: "file:" +
+        ddsCerts + "/opendds_identity_ca_cert.pem"},
+
+      {name: "dds.sec.access.governance", value: "file:" +
+        "../security/governance_signed.p7s"},
+
+      {name: "dds.sec.auth.identity_certificate", value: "file:" +
+        ddsCerts + "/mock_participant_2/opendds_participant_cert.pem"},
+
+      {name: "dds.sec.auth.private_key", value: "file:" +
+        ddsCerts + "/mock_participant_2/opendds_participant_private_key.pem"},
+
+      {name: "dds.sec.access.permissions", value: "file:" +
+        "../security/permissions_2_signed.p7s"},
+
+    ]}
+  });
   // Handle exit gracefully
   var self = this;
   process.on('SIGINT', function() {
