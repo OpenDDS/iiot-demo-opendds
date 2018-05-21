@@ -54,6 +54,17 @@ parse_args(int argc, ACE_TCHAR *argv[])
   return 0;
 }
 
+std::string cert_dir()
+{
+  const char* const cert_dir_env = getenv("CERT_DIR");
+  if (cert_dir_env) {
+    return cert_dir_env;
+  }
+
+  const std::string dds_root(getenv("DDS_ROOT"));
+  return dds_root + "/tests/security/certs";
+}
+
 void append(DDS::PropertySeq& props, const char* name, const std::string& value)
 {
   const DDS::Property_t prop = {
@@ -72,10 +83,8 @@ int main(int argc, char* argv[])
     DDS::DomainParticipantQos qos;
     dpf->get_default_participant_qos(qos);
 
-    // Enable Security
-    const std::string dds_root(getenv("DDS_ROOT"));
-    const std::string dds_certs(dds_root + "/tests/security/certs");
     if (TheServiceParticipant->get_security()) {
+      const std::string dds_certs = cert_dir();
       DDS::PropertySeq& props = qos.property.value;
       append(props, DDSSEC_PROP_IDENTITY_CA,
         dds_certs + "/opendds_identity_ca_cert.pem");

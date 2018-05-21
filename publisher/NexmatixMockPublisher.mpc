@@ -4,8 +4,8 @@ project: dcpsexe, svc_utils {
   idlflags += -I../idl
 
   Modify_Custom(IDL) {
-     output_follows_input = 0
-   }
+    output_follows_input = 0
+  }
 
   TypeSupport_Files {
     ../idl/Nexmatix.idl
@@ -13,6 +13,7 @@ project: dcpsexe, svc_utils {
 
   IDL_Files {
     ../idl/Nexmatix.idl
+    gendir = .
   }
 
 }
