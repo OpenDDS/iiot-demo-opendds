@@ -18,6 +18,7 @@ namespace {
   const DDS::DomainId_t DOMAIN_ID = 23;
   const char* TOPIC_NAME = "Valve";
   int sleep_time_in_sec = 1;
+  bool bogus_data = false;
 }
 
 const char DDSSEC_PROP_IDENTITY_CA[] = "dds.sec.auth.identity_ca";
@@ -30,16 +31,7 @@ const char DDSSEC_PROP_PERM_DOC[] = "dds.sec.access.permissions";
 int
 parse_args(int argc, ACE_TCHAR *argv[])
 {
-  //
-  // Command-line Options:
-  //
-  //    -w <number of topics>
-  //    -s <samples per topic>
-  //    -z <sec>  -- don't check the sample counts, just sleep this much
-  //                 and exit
-  //
-
-  ACE_Get_Opt get_opts(argc, argv, ACE_TEXT("t:"));
+  ACE_Get_Opt get_opts(argc, argv, ACE_TEXT("t:b"));
 
   int c;
   while ((c = get_opts()) != -1) {
@@ -47,6 +39,10 @@ parse_args(int argc, ACE_TCHAR *argv[])
     case 't':
       sleep_time_in_sec = ACE_OS::atoi(get_opts.opt_arg());
       std::cout << "sleep time = " << sleep_time_in_sec << " sec" << std::endl;
+      break;
+    case 'b':
+      bogus_data = true;
+      std::cout << "sending bogus data" << std::endl;
       break;
     case '?':
     default:
@@ -137,7 +133,7 @@ int main(int argc, char* argv[])
     const DDS::DataWriter_var vd_dw =
       pub->create_datawriter(vd_topic, vd_qos, NO_LISTENER);
 
-    DemoData demo;
+    DemoData demo(bogus_data);
     ShutdownHandler sh;
     Service_Shutdown shutdown(sh);
     std::cerr << "Starting to write valve data.\n";

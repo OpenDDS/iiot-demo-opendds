@@ -38,8 +38,9 @@ const int ppArray[] = { 90,80,70,60 ,50,30,25,25 ,35,40,50,70 ,70,70,70,85};
 const bool lfArray[] = {0, 0, 0, 1 , 1, 1, 1, 1 , 1, 1, 1, 0 , 0, 0, 0, 0};
 const bool vfArray[] = {0, 1, 1, 1 , 1, 1, 1, 1 , 1, 1, 0, 0 , 0, 0, 0, 0};
 
-DemoData::DemoData()
+DemoData::DemoData(bool bogus)
   : tick_(0)
+  , bogus_(bogus)
 {
 }
 
@@ -79,8 +80,8 @@ void DemoData::write(const DDS::DataWriter_var& vd_dw)
       }
 
       // data
-      data.pressure = ppArray[index];
-      data.suppliedPressure = spArray[index];
+      data.pressure = (bogus_ ? 100 : 1) * ppArray[index];
+      data.suppliedPressure = (bogus_ ? 100 : 1) * spArray[index];
 
       dw->write(data, DDS::HANDLE_NIL);
       num_data += 1;

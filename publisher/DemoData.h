@@ -12,11 +12,12 @@ namespace DDS {
 
 class DemoData {
 public:
-  DemoData();
+  explicit DemoData(bool bogus);
   void write(const DDS::DataWriter_var& dw);
 
 private:
   int tick_;
+  bool bogus_;
 };
 
 #endif
