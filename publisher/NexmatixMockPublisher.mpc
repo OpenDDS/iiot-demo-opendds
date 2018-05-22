@@ -1,4 +1,4 @@
-project: dcpsexe, svc_utils {
+project: dcpsexe, svc_utils, openssl {
   exeout += ../bin
 
   idlflags += -I../idl
@@ -16,4 +16,7 @@ project: dcpsexe, svc_utils {
     gendir = .
   }
 
+  verbatim(gnuace, extension, 1) {
+    LDLIBS += $(if $(findstring 1, $(VXWORKS)), -lunix)
+  }
 }

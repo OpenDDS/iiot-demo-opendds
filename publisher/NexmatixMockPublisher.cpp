@@ -7,6 +7,11 @@
 #include <iostream>
 #include <ace/Get_Opt.h>
 
+#ifdef __VXWORKS__
+# include <openssl/err.h>
+# include <openssl/rand.h>
+#endif
+
 #define NO_LISTENER 0, 0
 
 namespace {
@@ -76,6 +81,15 @@ void append(DDS::PropertySeq& props, const char* name, const std::string& value)
 
 int main(int argc, char* argv[])
 {
+#ifdef __VXWORKS__
+  // For demo purposes only, not cryptographically secure
+  unsigned char buf[32];
+  static const unsigned long PRNG =
+    ERR_PACK(ERR_LIB_RAND, RAND_F_RAND_BYTES, RAND_R_PRNG_NOT_SEEDED);
+  while (RAND_bytes(buf, sizeof buf) == 0 && ERR_get_error() == PRNG) {
+    RAND_seed(buf, sizeof buf);
+  }
+#endif
   try {
     const DDS::DomainParticipantFactory_var dpf =
       TheParticipantFactoryWithArgs(argc, argv);
