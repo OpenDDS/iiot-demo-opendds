@@ -19,6 +19,7 @@ namespace {
   const char* TOPIC_NAME = "Valve";
   int sleep_time_in_sec = 1;
   bool bogus_data = false;
+  std::string governance_file = "security/governance_signed.p7s";
 }
 
 const char DDSSEC_PROP_IDENTITY_CA[] = "dds.sec.auth.identity_ca";
@@ -31,7 +32,7 @@ const char DDSSEC_PROP_PERM_DOC[] = "dds.sec.access.permissions";
 int
 parse_args(int argc, ACE_TCHAR *argv[])
 {
-  ACE_Get_Opt get_opts(argc, argv, ACE_TEXT("t:b"));
+  ACE_Get_Opt get_opts(argc, argv, ACE_TEXT("t:bg:"));
 
   int c;
   while ((c = get_opts()) != -1) {
@@ -43,6 +44,10 @@ parse_args(int argc, ACE_TCHAR *argv[])
     case 'b':
       bogus_data = true;
       std::cout << "sending bogus data" << std::endl;
+      break;
+    case 'g':
+      governance_file = ACE_TEXT_ALWAYS_CHAR(get_opts.opt_arg());
+      std::cout << "using governance file: " << governance_file << std::endl;
       break;
     case '?':
     default:
@@ -90,6 +95,9 @@ int main(int argc, char* argv[])
     const DDS::DomainParticipantFactory_var dpf =
       TheParticipantFactoryWithArgs(argc, argv);
 
+    if (parse_args(argc, argv))
+      return 1;
+
     DDS::DomainParticipantQos qos;
     dpf->get_default_participant_qos(qos);
 
@@ -100,21 +108,16 @@ int main(int argc, char* argv[])
         dds_certs + "/opendds_identity_ca_cert.pem");
       append(props, DDSSEC_PROP_PERM_CA,
         dds_certs + "/opendds_identity_ca_cert.pem");
-      append(props, DDSSEC_PROP_PERM_GOV_DOC,
-				"security/governance_signed.p7s");
+      append(props, DDSSEC_PROP_PERM_GOV_DOC, governance_file);
       append(props, DDSSEC_PROP_IDENTITY_CERT,
         dds_certs + "/mock_participant_1/opendds_participant_cert.pem");
       append(props, DDSSEC_PROP_IDENTITY_PRIVKEY,
         dds_certs + "/mock_participant_1/opendds_participant_private_key.pem");
-      append(props, DDSSEC_PROP_PERM_DOC,
-				"security/permissions_1_signed.p7s");
+      append(props, DDSSEC_PROP_PERM_DOC, "security/permissions_1_signed.p7s");
     }
 
     const DDS::DomainParticipant_var participant =
       dpf->create_participant(DOMAIN_ID, qos, NO_LISTENER);
-
-    if (parse_args(argc, argv))
-      return 1;
 
     const Nexmatix::ValveDataTypeSupport_var vd_ts =
       new Nexmatix::ValveDataTypeSupportImpl;

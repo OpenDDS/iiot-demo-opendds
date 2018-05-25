@@ -11,7 +11,8 @@
   "license": "BSD",
   "dependencies": {
     "express": "*",
-    "socket.io": "*",
-    "opendds": "*"
+    "minimist": "*",
+    "opendds": "*",
+    "socket.io": "*"
   }
 }

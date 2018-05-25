@@ -1,4 +1,5 @@
 var opendds = require('opendds'),
+    parseArgs = require('minimist'),
     path = require('path');
 
 function ValveDataReader() {
@@ -52,7 +53,12 @@ ValveDataReader.prototype.initializeDds = function(argsArray) {
   if (!this.library) {
     throw new Error("Could not open type support library");
   }
-  var ddsCerts = process.env.DDS_ROOT + "/tests/security/certs"
+  var args = parseArgs(argsArray, {
+    default: {g: "../security/governance_signed.p7s"},
+    unknown: function(p) { return !/^-DCPS/.test(p); }
+  });
+
+  var ddsCerts = process.env.DDS_ROOT + "/tests/security/certs";
   this.participant = this.factory.create_participant(DOMAIN_ID, {
     property: { value: [
 
@@ -62,8 +68,7 @@ ValveDataReader.prototype.initializeDds = function(argsArray) {
       {name: "dds.sec.access.permissions_ca", value: "file:" +
         ddsCerts + "/opendds_identity_ca_cert.pem"},
 
-      {name: "dds.sec.access.governance", value: "file:" +
-        "../security/governance_signed.p7s"},
+      {name: "dds.sec.access.governance", value: "file:" + args['g']},
 
       {name: "dds.sec.auth.identity_certificate", value: "file:" +
         ddsCerts + "/mock_participant_2/opendds_participant_cert.pem"},
