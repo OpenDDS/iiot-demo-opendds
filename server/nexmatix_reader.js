@@ -63,18 +63,18 @@ ValveDataReader.prototype.initializeDds = function(argsArray) {
     property: { value: [
 
       {name: "dds.sec.auth.identity_ca", value: "file:" +
-        ddsCerts + "/opendds_identity_ca_cert.pem"},
+        ddsCerts + "/identity/identity_ca_cert.pem"},
 
       {name: "dds.sec.access.permissions_ca", value: "file:" +
-        ddsCerts + "/opendds_identity_ca_cert.pem"},
+        ddsCerts + "/permissions/permissions_ca_cert.pem"},
 
       {name: "dds.sec.access.governance", value: "file:" + args['g']},
 
       {name: "dds.sec.auth.identity_certificate", value: "file:" +
-        ddsCerts + "/mock_participant_2/opendds_participant_cert.pem"},
+        ddsCerts + "/identity/test_participant_02_cert.pem"},
 
       {name: "dds.sec.auth.private_key", value: "file:" +
-        ddsCerts + "/mock_participant_2/opendds_participant_private_key.pem"},
+        ddsCerts + "/identity/test_participant_02_private_key.pem"},
 
       {name: "dds.sec.access.permissions", value: "file:" +
         "../security/permissions_2_signed.p7s"},

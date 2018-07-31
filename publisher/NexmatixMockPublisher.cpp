@@ -105,14 +105,14 @@ int main(int argc, char* argv[])
       const std::string dds_certs = cert_dir();
       DDS::PropertySeq& props = qos.property.value;
       append(props, DDSSEC_PROP_IDENTITY_CA,
-        dds_certs + "/opendds_identity_ca_cert.pem");
+        dds_certs + "/identity/identity_ca_cert.pem");
       append(props, DDSSEC_PROP_PERM_CA,
-        dds_certs + "/opendds_identity_ca_cert.pem");
+        dds_certs + "/permissions/permissions_ca_cert");
       append(props, DDSSEC_PROP_PERM_GOV_DOC, governance_file);
       append(props, DDSSEC_PROP_IDENTITY_CERT,
-        dds_certs + "/mock_participant_1/opendds_participant_cert.pem");
+        dds_certs + "/identity/test_participant_01_cert.pem");
       append(props, DDSSEC_PROP_IDENTITY_PRIVKEY,
-        dds_certs + "/mock_participant_1/opendds_participant_private_key.pem");
+        dds_certs + "/identity/test_participant_01_private_key.pem");
       append(props, DDSSEC_PROP_PERM_DOC, "security/permissions_1_signed.p7s");
     }
 

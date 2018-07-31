@@ -27,7 +27,7 @@
                     <enable_liveliness_protection>false</enable_liveliness_protection>
                     <enable_read_access_control>false</enable_read_access_control>
                     <enable_write_access_control>false</enable_write_access_control>
-                    <metadata_protection_kind>NONE</metadata_protection_kind>
+                    <metadata_protection_kind>ENCRYPT</metadata_protection_kind>
                     <data_protection_kind>NONE</data_protection_kind>
                 </topic_rule>
             </topic_access_rules>
